@@ -6,6 +6,8 @@ gops: [0.867477920]
 shapes:
   - [1, 3, 224, 224]
 
+precision: true
+
 mlir_transform:
   model_transform.py
     --model_name $(name)
@@ -52,18 +54,15 @@ deploy:
       --test_reference $(name)_top_outputs.npz
       --tolerance 0.87,0.47
       --model $(workdir)/$(name)_bm1684x_int8_asym.bmodel
-      
-precision: true
- 
+
 dataset:
   image_path: $(imagenet2012_val_set)
   image_label: $(imagenet2012_caffe_val_ground_truth)
-  mean: [123.675,116.28,103.53]
-  scale: [0.0171,0.0175,0.0174]
+  mean: [123.675, 116.28, 103.53]
+  scale: [0.0171, 0.0175, 0.0174]
   size: 224
-  trans: True
-  bgr2rgb: True
-
+  trans: true
+  bgr2rgb: true
 
 harness:
   type: efficientnetv2

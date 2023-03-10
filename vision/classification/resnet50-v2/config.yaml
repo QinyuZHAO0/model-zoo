@@ -59,11 +59,11 @@ deploy:
 dataset:
   image_path: $(imagenet2012_val_set)
   image_label: $(imagenet2012_caffe_val_ground_truth)
-  mean: [123.675,116.28,103.53]
-  scale: [0.0171,0.0175,0.0174]
+  mean: [123.675, 116.28, 103.53]
+  scale: [0.0171, 0.0175, 0.0174]
   size: 224
-  trans: True
-  bgr2rgb: True
+  trans: true
+  bgr2rgb: true
 
 harness:
   type: efficientnetv2
@@ -74,4 +74,3 @@ harness:
       bmodel: $(workdir)/$(name)_bm1684x_int8_sym.bmodel
     - name: INT8
       bmodel: $(workdir)/$(name)_bm1684x_int8_asym.bmodel
-      
