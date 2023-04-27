@@ -44,7 +44,7 @@ fp_compile_options:
     --shapes $(input_shapes)
     --net_name $(name)
     --target $(target)
-    --enable_profile false
+    --enable_profile true
 
 time_only_cali:
   python3 -m ufw.cali.cali_model

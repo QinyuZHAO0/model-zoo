@@ -16,6 +16,7 @@ fp_compile_options:
     --input_names "Placeholder"
     --shapes [1,224,224,3]
     --target $(target)
+    --enable_profile true
 
 cali:
   python3 -m ufw.cali.cali_model

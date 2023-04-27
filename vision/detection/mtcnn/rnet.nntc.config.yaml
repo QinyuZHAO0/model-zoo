@@ -16,6 +16,7 @@ fp_compile_options:
   --target $(target)
   --opt 1
   --cmp 1
+  --enable_profile true
 
 time_only_cali:
   python3 -m ufw.cali.cali_model

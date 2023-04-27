@@ -1,7 +1,7 @@
 ---
 
 name: facenet
-gops: 8.53
+gops: 2.8468
 
 model: $(home)/facenet.pb
 
