@@ -206,7 +206,7 @@ def nntc_docker(latest_tpu_perf_whl):
     nntc_dir = f.get_nntc()
 
     # Docker init
-    client = docker.from_env()
+    client = docker.from_env(timeout=360)
     image = 'sophgo/tpuc_dev:v2.1'
     client.images.pull(image)
 
@@ -279,7 +279,7 @@ def mlir_docker(latest_tpu_perf_whl):
     mlir_dir = f.get_mlir()
 
     # Docker init
-    client = docker.from_env()
+    client = docker.from_env(timeout=360)
     image = 'sophgo/tpuc_dev:latest'
     client.images.pull(image)
 
