@@ -121,10 +121,10 @@ class Runner:
             if self.config.get('bgr2rgb'):
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            if self.config.get('resize_dims') != 0:
+            if self.config.get('resize_dims') != None:
                 img = resize(img, self.config.get('resize_dims'))
 
-            if self.config.get('crop_dims') != 0:
+            if self.config.get('crop_dims') != None:
                 cropped = center_crop(img, self.config.get('crop_dims'))
                 cropped = resize(cropped, self.size)
             else:
@@ -217,10 +217,10 @@ def harness_main(tree, config, args):
     mean = input_config['mean']
     size = input_config['size']
 
-    trans = input_config.get('trans', False)
+    trans = input_config.get('trans', True)
     bgr2rgb = input_config.get('bgr2rgb', False)
-    resize_dims = input_config.get('resize_dims', 0)
-    crop_dims = input_config.get('crop_dims', 0)
+    resize_dims = input_config.get('resize_dims', 256)
+    crop_dims = input_config.get('crop_dims')
 
     pre_config = dict(mean=mean, scale=scale, size=size, trans=trans, bgr2rgb=bgr2rgb, resize_dims=resize_dims,
                       crop_dims=crop_dims)
@@ -250,14 +250,14 @@ def main():
     parser.add_argument(
         '--size', required=True, type=int, help='Input size')
     parser.add_argument(
-        '--resize_dims', required=True, type=int, help='Resize size before center crop (default 256).')
+        '--resize_dims', default=256, type=int, help='Resize size before center crop.')
     parser.add_argument(
-        '--crop_dims', required=True, type=int, help='Crop size (default is the value of --size).')
+        '--crop_dims', default=None, type=int, help='Crop size.')
     parser.add_argument('--threads', type=int, default=4)
     parser.add_argument('--devices', '-d', type=int, nargs='*', help='Devices',
         default=[0])
     parser.add_argument('--trans', type=str, default=True, help='default True do transpose to align with opencv format')
-    parser.add_argument('--bgr2rgb', type=str, default=True, help="default True to convert image into rgb format")
+    parser.add_argument('--bgr2rgb', type=str, default=False, help="default True to convert image into rgb format")
     args = parser.parse_args()
 
     logging.basicConfig(
