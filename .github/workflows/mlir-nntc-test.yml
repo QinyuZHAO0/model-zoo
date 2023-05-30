@@ -30,10 +30,10 @@ on:
         default: '--full'
         required: false
         type: string
-      toolchains:
-        description: 'Toolchains to run'
-        default: 'nntc'
-        required: true
+      toolchain:
+        description: 'Toolchain to run'
+        default: [nntc, mlir]
+        required: false
         type: choice
         options:
           - mlir
@@ -131,8 +131,9 @@ jobs:
           echo "FULL_TEST=true" >> $GITHUB_ENV
 
       - name: Test
-        run: ".github/workflows/test.sh -m 'build and mlir' \
-                  ${{ inputs.cases }}"
+        run: '.github/workflows/test.sh -m \
+                  "build and ${{ inputs.toolchain }}" \
+                  ${{ inputs.cases }}'
         id: test
 
       - name: Cleanup
@@ -176,7 +177,8 @@ jobs:
 
       - name: Test
         run: |
-          .github/workflows/test.sh -m 'runtime and mlir' -t \
+          .github/workflows/test.sh -m \
+              'runtime and ${{ inputs.toolchain }}' -t \
               ${{ matrix.target }} ${{ inputs.cases }}
         env:
           MLIR_MODEL_TAR: ${{ needs.mlir_test_build.outputs.MLIR_MODEL_TAR }}
@@ -219,8 +221,10 @@ jobs:
           echo "FULL_TEST=true" >> $GITHUB_ENV
 
       - name: Test
-        run: ".github/workflows/test.sh -m 'build and nntc' \
-                  ${{ inputs.cases }}"
+        run: ./.github/workflows/test.sh -m \
+                  'build and ${{ inputs.toolchain }}' \
+                  ${{ inputs.cases }}
+        shell: bash
         id: test
 
       - name: Cleanup
@@ -263,7 +267,8 @@ jobs:
 
       - name: Test
         run: |
-          .github/workflows/test.sh -m 'runtime and nntc' -t \
+          .github/workflows/test.sh -m \
+              'runtime and ${{ inputs.toolchain }}' -t \
               ${{ matrix.target }} ${{ inputs.cases }}
         env:
           NNTC_MODEL_TAR: ${{ needs.nntc_test_build.outputs.NNTC_MODEL_TAR }}
