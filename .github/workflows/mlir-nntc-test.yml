@@ -30,6 +30,14 @@ on:
         default: '--full'
         required: false
         type: string
+      toolchains:
+        description: 'Toolchains to run'
+        default: 'nntc'
+        required: true
+        type: choice
+        options:
+          - mlir
+          - nntc
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.event.pull_request.number || \

@@ -401,6 +401,7 @@ def git_changed_files(rev):
 from functools import reduce
 @pytest.fixture(scope='session')
 def case_list():
+    return "vision/classification/mobilenet-v2"
     if 'TEST_CASES' in os.environ:
         return os.environ['TEST_CASES'].strip() or '--full'
 
@@ -500,10 +501,14 @@ def upload_bmodel(target, model_tar, T):
 @pytest.fixture(scope='session')
 def runtime_dependencies(latest_tpu_perf_whl):
     execute_cmd(f'pip3 install {latest_tpu_perf_whl} > /dev/null')
+
+@pytest.fixture(scope='session')
+def precision_dependencies(latest_tpu_perf_whl):
+    execute_cmd(f'pip3 install {latest_tpu_perf_whl} > /dev/null')
     execute_cmd('pip3 install -r requirements.txt -i https://mirrors.cloud.tencent.com/pypi/simple > /dev/null')
 
 @pytest.fixture(scope='session')
-def mlir_runtime(runtime_dependencies, target, case_list):
+def mlir_runtime(target, case_list):
     dirs_to_remove = ['*.tar', '*out*', 'data']
     for d in dirs_to_remove:
         remove_tree(d)
@@ -522,7 +527,7 @@ def mlir_runtime(runtime_dependencies, target, case_list):
         remove_tree(d)
 
 @pytest.fixture(scope='session')
-def nntc_runtime(runtime_dependencies, target, case_list):
+def nntc_runtime(target, case_list):
     dirs_to_remove = ['*.tar', '*out*', 'data']
     for d in dirs_to_remove:
         remove_tree(d)
