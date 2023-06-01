@@ -401,7 +401,6 @@ def git_changed_files(rev):
 from functools import reduce
 @pytest.fixture(scope='session')
 def case_list():
-    return "vision/classification/mobilenet-v2"
     if 'TEST_CASES' in os.environ:
         return os.environ['TEST_CASES'].strip() or '--full'
 
