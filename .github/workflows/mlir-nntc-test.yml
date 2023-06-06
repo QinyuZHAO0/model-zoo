@@ -183,6 +183,15 @@ jobs:
         env:
           MLIR_MODEL_TAR: ${{ needs.mlir_test_build.outputs.MLIR_MODEL_TAR }}
 
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: csv-files
+          path: "csv_${{ matrix.target }}_${{ matrix.host-arch }}_\
+                    ${{ needs.mlir_test_build.outputs.MLIR_MODEL_TAR }}.gz"
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Cleanup
         if: ${{ cancelled() || failure() }}
         run:
@@ -271,6 +280,15 @@ jobs:
               ${{ matrix.target }} ${{ inputs.cases }}
         env:
           NNTC_MODEL_TAR: ${{ needs.nntc_test_build.outputs.NNTC_MODEL_TAR }}
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: csv-files
+          path: "csv_${{ matrix.target }}_${{ matrix.host-arch }}_\
+                    ${{ needs.nntc_test_build.outputs.NNTC_MODEL_TAR }}.gz"
+          if-no-files-found: ignore
+          retention-days: 30
 
       - name: Cleanup
         if: ${{ cancelled() || failure() }}
