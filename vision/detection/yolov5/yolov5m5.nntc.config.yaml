@@ -7,8 +7,6 @@ model: $(home)/yolov5m-5.0.pt
 precision: true
 runtime_cmp: false
 
-runtime_cmp: false
-
 BM1684X:
   fp_loops:
     - build_env: [  ]

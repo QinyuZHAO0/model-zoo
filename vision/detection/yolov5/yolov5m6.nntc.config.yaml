@@ -4,7 +4,6 @@ name: yolov5m-6
 gops: 45.58
 
 model: $(home)/yolov5m-6.0.pt
-
 precision: true
 runtime_cmp: false
 

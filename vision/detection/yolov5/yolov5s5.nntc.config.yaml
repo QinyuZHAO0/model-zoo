@@ -5,7 +5,6 @@ gops: 15.845
 
 model: $(home)/yolov5s-5.0.pt
 precision: true
-
 runtime_cmp: false
 
 BM1684X:
