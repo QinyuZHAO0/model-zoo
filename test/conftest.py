@@ -278,9 +278,22 @@ def mlir_docker(latest_tpu_perf_whl):
     f = FTPClient(ftp_server)
     mlir_dir = f.get_mlir()
 
+    branch = os.environ.get('GITHUB_REF')
+    if branch:
+        branch_name = branch.split('/')[-1]
+        if branch.startswith('refs/pull/'):
+            base_branch = os.environ.get('GITHUB_BASE_REF')
+            branch_name = base_branch.split('/')[-1]
+        if branch_name == 'main':
+            image = 'sophgo/tpuc_dev:latest'
+        elif branch_name == 'stable':
+            image = 'sophgo/tpuc_dev:v2.2'
+    else:
+        logging.info("Unable to get information about the currently running branch!")
+
     # Docker init
     client = docker.from_env(timeout=360)
-    image = 'sophgo/tpuc_dev:latest'
+    logging.info(f'Pull image {image}')
     client.images.pull(image)
 
     # MLIR container
