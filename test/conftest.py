@@ -647,6 +647,28 @@ def get_coco2017_val():
         cmd = 'rm annotations.zip'
         execute_cmd(cmd)
 
+@pytest.fixture(scope='session')
+def get_basicvsr_val():
+    data_server = os.environ.get('DATA_SERVER')
+    assert data_server
+
+    fn = 'basicvsr_val.zip'
+    url = os.path.join(data_server, fn)
+    if len(os.listdir('dataset/basicvsr/eval')) >= 3:
+        logging.info(f'{fn} already downloaded')
+    else:
+        logging.info(f'Downloading {fn}')
+        cmd = f'curl -o {fn} -s {url}'
+        execute_cmd(cmd)
+        cmd = f'unzip -o {fn} -d dataset/basicvsr'
+        execute_cmd(cmd)
+        cmd = f'rm {fn}'
+        execute_cmd(cmd)
+
+@pytest.fixture(scope='session')
+def get_val_dataset(get_imagenet_val, get_cifar100, get_coco2017_val, get_basicvsr_val):
+    return 0
+
 def main():
     logging.basicConfig(level=logging.INFO)
 

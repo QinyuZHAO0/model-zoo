@@ -5,7 +5,7 @@ from utils import container_run
 @pytest.mark.build
 @pytest.mark.mlir
 @pytest.mark.parametrize('target', ['BM1684', 'BM1684X'])
-def test_mlir_efficiency(target, mlir_env, get_imagenet_val, get_cifar100, get_coco2017_val):
+def test_mlir_efficiency(target, mlir_env, get_val_dataset):
     if not mlir_env['case_list']:
         logging.info(f'Skip efficiency test')
         return

@@ -22,7 +22,7 @@ def make_lmdb(nntc_env):
 @pytest.mark.build
 @pytest.mark.nntc
 @pytest.mark.parametrize('target', ['BM1684', 'BM1684X'])
-def test_nntc_efficiency(target, nntc_env, get_imagenet_val, get_cifar100, get_coco2017_val):
+def test_nntc_efficiency(target, nntc_env, get_val_dataset):
     if not nntc_env['case_list']:
         logging.info(f'Skip nntc efficiency test')
         return
@@ -34,7 +34,7 @@ def test_nntc_efficiency(target, nntc_env, get_imagenet_val, get_cifar100, get_c
 @pytest.mark.build
 @pytest.mark.nntc
 @pytest.mark.parametrize('target', ['BM1684', 'BM1684X'])
-def test_nntc_accuracy(target, nntc_env, get_imagenet_val, get_cifar100, get_coco2017_val, make_lmdb):
+def test_nntc_accuracy(target, nntc_env, get_val_dataset, make_lmdb):
     if not nntc_env['case_list']:
         logging.info(f'Skip nntc accuracy test')
         return
