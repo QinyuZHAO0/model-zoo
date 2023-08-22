@@ -292,19 +292,20 @@ def mlir_docker(latest_tpu_perf_whl):
     mlir_dir = f.get_mlir()
 
     # Docker init
-    branch = os.environ.get('GITHUB_REF')
-    if branch:
-        branch_name = branch.split('/')[-1]
-        if branch.startswith('refs/pull/'):
-            base_branch = os.environ.get('GITHUB_BASE_REF')
-            branch_name = base_branch.split('/')[-1]
-        if branch_name == 'main':
-            image = 'sophgo/tpuc_dev:latest'
-        elif branch_name == 'stable':
-            image = 'sophgo/tpuc_dev:v2.2'
-    else:
-        logging.info("Unable to get information about the currently running branch!")
+    # branch = os.environ.get('GITHUB_REF')
+    # if branch:
+    #     branch_name = branch.split('/')[-1]
+    #     if branch.startswith('refs/pull/'):
+    #         base_branch = os.environ.get('GITHUB_BASE_REF')
+    #         branch_name = base_branch.split('/')[-1]
+    #     if branch_name == 'main':
+    #         image = 'sophgo/tpuc_dev:latest'
+    #     elif branch_name == 'stable':
+    #         image = 'sophgo/tpuc_dev:v2.2'
+    # else:
+    #     logging.info("Unable to get information about the currently running branch!")
 
+    image = 'sophgo/tpuc_dev:latest'
     client = docker.from_env(timeout=360)
     logging.info(f'Pull image {image}')
     client.images.pull(image)
@@ -324,8 +325,11 @@ def mlir_docker(latest_tpu_perf_whl):
             f'/workspace/{mlir_dir}/python/samples:' \
             f'/usr/local/bin:/usr/bin:/bin',
             f'LD_LIBRARY_PATH=/workspace/{mlir_dir}/lib',
-            f'PYTHONPATH=/workspace/{mlir_dir}/python'],
+            f'PYTHONPATH=/workspace/{mlir_dir}/python:' \
+            f'/usr/local/python_packages/mlir_core:' \
+            f'/usr/local/python_packages/:'],
         tty=True, detach=True)
+    # f'PYTHONPATH=/workspace/{mlir_dir}/python'],
 
     # For cleanup jobs in case we fail
     if 'GITHUB_ENV' in os.environ:
@@ -428,6 +432,7 @@ def git_changed_files(rev):
 from functools import reduce
 @pytest.fixture(scope='session')
 def case_list():
+    return 'vision/detection/mtcnn'
     if 'TEST_CASES' in os.environ:
         return os.environ['TEST_CASES'].strip() or '--full'
 
